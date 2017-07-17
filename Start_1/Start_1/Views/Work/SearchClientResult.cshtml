@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "SearchClientResult";
+}
+
+<h2>Результат поиска</h2>
+
+@if (ViewBag.Client != null)
+{
+    <p>@ViewBag.Client.Name</p>
+    <p>@ViewBag.Client.Email</p>
+    <p>@ViewBag.Client.Phone_Number</p>
+    <p>@ViewBag.Client.Level</p>
+    if (ViewBag.Client.VIP == 1)
+    {
+        <p>VIP клиент</p>
+    }
+    else
+    {
+        <p>Простой клиент</p>
+    }
+}
+else
+{
+    <p>Ничего не найдено</p>
+}

@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "ProductView";
+}
+
+<h2>Просмотр продукции</h2>
+<h3><a href="/Work/SearchProduct/"> Найти фильм</a></h3>
+<h3><a href="/Home/Supple_Get/"> Сделать заказ</a></h3>
+<div>
+    <table>
+        <tr class="header">
+            <td>Идентификатор</td>
+            <td>Название фильма</td>
+            <td>Жанр</td>
+            <td>Режиссер</td>
+            <td>Год выпуска</td>
+            <td>Цена за день</td>
+            <td>Имеется в наличии</td>
+            <td>Дата приобретения</td>
+            <td>Заказать</td>
+            <td>Наличие</td>
+        </tr>
+       
+            @foreach (Start_1.Models.Product p in ViewBag.Products)
+            {
+                <tr>
+                    <td><p>@p.Product_Id</p></td>
+                    <td><p>@p.P_Name</p></td>
+                    <td><p>@p.Genre</p></td>
+                    <td><p>@p.Director</p></td>
+                    <td><p>@p.Year</p></td>
+                    <td><p>@p.Cost</p></td>
+                    @if (p.Have == 1)
+                    {
+                    <td><p>Имеется в наличии</p></td>
+                    }
+                    else
+                    {
+                     <td><p>В наличии нету</p></td>
+                    }
+                    <td><p>@p.Date_Buy.Value.Date</p></td>
+                    <td><p><a href="/Home/GetOrder?id=@p.Product_Id">Заказать</a></p></td>
+                    <td><p><a href="/Work/ReturnTime?id=@p.Product_Id">Наличие</a></p></td>
+                </tr>
+            }
+        
+    </table>
+</div>

@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "SearchProductResult";
+}
+
+<h2>Результат поиска</h2>
+
+    @if (ViewBag.Product != null)
+    {
+        <p>@ViewBag.Product.Product_Id</p>
+        <p>@ViewBag.Product.P_Name</p>
+        <p>@ViewBag.Product.Genre</p>
+        <p>@ViewBag.Product.Director</p>
+        <p>@ViewBag.Product.Year</p>
+        if (ViewBag.Product.Have == 1)
+        {
+            <p>Имеется в наличии</p>
+        }
+        else
+        {
+            <p>В наличии нету</p>
+        }
+        <p><a href="/Home/GetOrder?id=@ViewBag.Product.Product_Id">Заказать</a></p>
+    }
+     else
+    {
+        <p>Ничего не найдено</p>
+    }
+
+
+

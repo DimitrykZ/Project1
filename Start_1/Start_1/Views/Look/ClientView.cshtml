@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "ClientView";
+}
+
+<h2>Просмотр всех клиентов</h2>
+<div>
+    <table>
+        <tr class="header">
+            <td>Идентификатор</td>
+            <td>Имя клиента</td>
+            <td>Почта</td>
+            <td>Номер телефона</td>
+            <td>Уровень</td>
+            <td>Статус</td>
+        </tr>
+        @foreach (Start_1.Models.Client p in ViewBag.Clients)
+        {
+            <tr>
+                <td><p>@p.Person_Id</p></td>
+                <td><p>@p.Name</p></td>
+                <td><p>@p.Email</p></td>
+                <td><p>@p.Phone_Number</p></td>
+                <td><p>@p.Level</p></td>
+                <td><p>@p.VIP</p></td>
+    
+            </tr>
+        }
+    </table>
+    <h1>Добавить клиента</h1>
+    <p><a href="/Home/Client_New/">Добавить</a></p>
+</div>
+

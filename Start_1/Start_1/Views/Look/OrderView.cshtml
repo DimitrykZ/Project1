@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "OrderView";
+}
+
+<h2>Просмотр заказов</h2>
+
+<div>
+    <table>
+        <tr class="header">
+            <td>Номер заказа</td>
+            <td>Код фильма</td>
+            <td>Код клиента</td>
+            <td>Цена</td>
+            <td>Дата начала проката</td>
+            <td>Дата окончания проката</td>
+            <td>Договор окончен</td>
+            <td>Закрыть договор</td>
+
+        </tr>
+
+        @foreach (Start_1.Models.Order p in ViewBag.Orders)
+            {
+            <tr>
+                <td><p>@p.Order_Id</p></td>
+                <td><p>@p.Product_Id</p></td>
+                <td><p>@p.Person_Id</p></td>
+                <td><p>@p.Price</p></td>
+                <td><p>@p.Date_Begin</p></td>
+                <td><p>@p.Date_End</p></td>
+                @if (p.Complete == 1)
+                {
+                <td><p>Да</p></td>
+                }
+                else
+                {
+                    <td><p>Нет</p></td>
+                }
+                <td><p><a href="/Home/OrderChange?id=@p.Order_Id">Закрыть</a></p></td>
+            </tr>
+        }
+
+    </table>
+    
+</div>

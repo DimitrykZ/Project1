@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "ReturnTime";
+}
+
+<h2>Результат поиска</h2>
+
+@if (ViewBag.Order != null)
+{
+        <p>@ViewBag.Product.Product_Id</p>
+        <p>@ViewBag.Product.P_Name</p>
+        <p>@ViewBag.Product.Genre</p>
+        <p>@ViewBag.Product.Director</p>
+        <p>@ViewBag.Product.Year</p>
+        <p>Был взят в прокат @ViewBag.Order.Date_Begin</p>
+        <p>Должны вернуть @ViewBag.Order.Date_End</p>
+}
+else
+{
+    <p>Ничего не найдено</p>
+}

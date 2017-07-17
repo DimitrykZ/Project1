@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "SuppleView";
+}
+
+<h2>Просмотр добавок</h2>
+
+<div>
+    <table>
+        <tr class="header">
+            <td>Номер заказа</td>
+            <td>Код фильма</td>
+            <td>Код клиента</td>
+            <td>Название фильма</td>
+            <td>Дата заказа</td>
+            <td>Дата приобретения</td>
+            <td>Статус доставки</td>
+            <td>Добавить</td>
+        </tr>
+
+        @foreach (Start_1.Models.Supplement p in ViewBag.Supplements)
+            {
+            <tr>
+                <td><p>@p.Supple_Id</p></td>
+                <td><p>@p.Product_Id</p></td>
+                <td><p>@p.Person_Id</p></td>
+                <td><p>@p.P_Name</p></td>
+                <td><p>@p.Date_Supple_Begin</p></td>
+                @if (p.Date_Supple_End !=null)
+                {
+                    <td><p>@p.Date_Supple_End</p></td>
+                }
+                else
+                {
+                    <td><p>-</p></td>
+                }
+                @if (p.Supple_Done == 1)
+                {
+                    <td><p>Товар доставлен</p></td>
+                }
+                else
+                {
+                    <td><p>Пока не приобрели</p></td>
+                }
+                <td><p><a href="/Home/Supple_Done?id=@p.Supple_Id">Добавить</a></p></td>
+            </tr>
+        }
+
+    </table>
+</div>

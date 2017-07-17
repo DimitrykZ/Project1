@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "GetOrder";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Get Order</title>
+</head>
+<h2>GetOrder</h2>
+<div>
+    <form method="post" action="">
+        <p>Клиент</p>
+        <input type="number" name="Person_Id" />
+        <input type="hidden" value="@ViewBag.Product.Product_Id" name="Product_Id" />
+        <input type="hidden" value="@ViewBag.Product.Product_Id" name="id" />
+        <p>Вы фильм @ViewBag.Product.P_Name</p>
+        <p>Количество дней </p>
+        <input type="number" name="Days"/>
+        <p>Сделать заказ</p>
+        <input type="submit" name="Отправить"/>
+    </form>
+</div>
+
+
+ 
+      

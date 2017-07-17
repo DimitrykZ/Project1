@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "ManagerView";
+}
+
+<h2>Просмотр работников компании</h2>
+<div>
+    <table>
+        <tr class="header">
+            <td>Идентификатор</td>
+            <td>Имя работника</td>
+            <td>Должность</td>
+            <td>Почта</td>
+            <td>Номер телефона</td>
+            <td>Зарплата</td>
+            <td>Изменить</td>
+        </tr>
+        @foreach (Start_1.Models.Manager p in ViewBag.Managers)
+        {
+            <tr>
+                <td><p>@p.Person_Id</p></td>
+                <td><p>@p.Name</p></td>
+                <td><p>@p.Job_Title</p></td>
+                <td><p>@p.Email</p></td>
+                <td><p>@p.Phone_Number</p></td>
+                <td><p>@p.Salary</p></td> 
+            </tr>
+        }
+    </table>
+    <h2>Добавить работника</h2>
+    <p><a href="/Home/Manager_Add/"> Добавить работника</a></p>                          
+</div>
