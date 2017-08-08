@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Start_1.Models
 {
-    public class Product
+    public class Product //Модель продукции
     {
         [Key]
         public int Product_Id { get; set; }

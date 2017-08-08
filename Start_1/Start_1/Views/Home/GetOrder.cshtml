@@ -1,27 +1,73 @@
-﻿
+﻿@model Start_1.Models.Order
+
 @{
     ViewBag.Title = "GetOrder";
+    Start_1.Models.Product item = ViewBag.P;
 }
 
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Get Order</title>
-</head>
-<h2>GetOrder</h2>
+<h2>Сделать заказ</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 <div>
-    <form method="post" action="">
-        <p>Клиент</p>
-        <input type="number" name="Person_Id" />
-        <input type="hidden" value="@ViewBag.Product.Product_Id" name="Product_Id" />
-        <input type="hidden" value="@ViewBag.Product.Product_Id" name="id" />
-        <p>Вы фильм @ViewBag.Product.P_Name</p>
-        <p>Количество дней </p>
-        <input type="number" name="Days"/>
-        <p>Сделать заказ</p>
-        <input type="submit" name="Отправить"/>
-    </form>
-</div>
+    <h4>Заказ</h4>
+    <hr />
+    <dl class="dl-horizontal">
 
+        <dt>
+            @Html.Label("Название фильма")
+        </dt>
 
- 
-      
+        <dd>
+            @Html.DisplayFor(model => item.P_Name)
+        </dd>
+
+        <dt>
+            @Html.Label("Цена за один день")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Cost)
+        </dd>
+
+        <dt>
+            @Html.Label("Жанр")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Genre)
+        </dd>
+        <dt>
+            @Html.Label("Год выпуска")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Year)
+        </dd>  
+    </dl>
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Количество дней", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("Days")
+                @Html.ValidationMessage("Days", "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <input type="hidden" value="@item.Product_Id" name="Product_Id" />
+        <input type="hidden" value="@item.Product_Id" name="id" />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сделать заказ" class="btn btn-default" />
+            </div>
+        </div>
+   </div>
+
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

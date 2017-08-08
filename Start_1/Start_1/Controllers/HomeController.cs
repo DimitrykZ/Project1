@@ -8,79 +8,83 @@ using System.Data.Entity;
 
 namespace Start_1.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Controller  
     {
         StoreContext db = new StoreContext();
-        public ActionResult Index()
+        Person user = new Person();
+
+        public void Login()  //вспомогательный метод, получает информациюо зарегистрированном пользователе
         {
-            return View();
+            user = db.Clients.FirstOrDefault(u => u.Email == User.Identity.Name);
+            if (user == null)
+                user = db.Managers.FirstOrDefault(u => u.Email == User.Identity.Name);
+        }
+
+        public RedirectResult Index()
+        {
+            return Redirect("/Look/ProductView");
         }
      
-
+        [Authorize]
         [HttpGet]
         public ActionResult GetOrder(int id)  // GetOrder отвечате за формирование заказа
         {
             Product p = db.Products.Find(id);
-            ViewBag.Product = p;
+            ViewBag.P = p;
             return View();
         }
+
+        [Authorize]
         [HttpPost]
-        public ActionResult GetOrder(Order order, int Days,int id)
+        public ActionResult GetOrder(Order order, uint Days,int id) // GetOrder отвечате за формирование заказа 
         {
+            Login();
             order.Date_Begin = DateTime.Now;
             order.Date_End = DateTime.Now.AddDays(Days);
-            order.Price = db.Products.Find(id).Cost * Days;
+            order.Price = db.Products.Find(id).Cost * (int?)Days;
             order.Complete = 0;
+            order.Person_Id = user.Person_Id;
             db.Orders.Add(order);
             db.SaveChanges();
             db.Products.Find(id).Have = 0;
             db.SaveChanges();
+            db.Clients.Find(user.Person_Id).Level++;
+            if (db.Clients.Find(user.Person_Id).Level > 15)
+                db.Clients.Find(user.Person_Id).VIP = 1;
+            db.SaveChanges();
             ViewBag.Order = order;
             return View("Order_Done");
-        } 
+        }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
-        public ActionResult Client_New()
+        public ActionResult ClientNew() //Данный класс отвечает за создание нового клиента напрямую, безрегистрации
         {
             return View();
-        }  //Данный класс отвечает за создание нового клиента напрямую, безрегистрации
+        }  
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
-        public RedirectResult Client_New(Client client)
+        public RedirectResult ClientNew(Client client)////Данный класс отвечает за создание нового клиента напрямую, безрегистрации
         {
-           
+
             client.Level = 0;
             client.VIP = 0;
             client.RoleId = 1;
-            client.Password = "123";
             db.Clients.Add(client);
             db.SaveChanges();
-            return Redirect("/Look/ClientView"); 
+            return Redirect("/Look/ClientView");
         }
-
-       // [HttpGet]
-       // public ActionResult Product_Buy()
-     //   {
-      //      return View();
-     //   } 
-    //
-    //    [HttpPost]
-    ///    public ActionResult Product_Buy(Product product)
-     //   {
-      //      product.Date_Buy = DateTime.Now;
-     //       db.Products.Add(product);
-      //      db.SaveChanges();
-     //       return View();
-    //    }
-    
+        [Authorize]
         [HttpGet]
-        public ActionResult Supple_Get()
+        public ActionResult Supple_Get() //Создает запрос на пополнение ассортимента
         {
             return View();
-        }  //Создает запрос на пополнение ассортимента
+        }  
 
+        [Authorize]
         [HttpPost]
-        public ActionResult Supple_Get(Supplement supple)
+        public ActionResult Supple_Get(Supplement supple) //Создает запрос на пополнение ассортимента
         {
             supple.Date_Supple_Begin = DateTime.Now;
             supple.Date_Supple_End = null;
@@ -91,11 +95,23 @@ namespace Start_1.Controllers
             return View("Supple_Wait");
         }
 
+        [Authorize(Roles = "Manager")]
+        [HttpGet]
+        public ActionResult Supple_Done(int id) //Метод отвечает за выполнение пополнения ассортимента
+        {
+            ViewBag.id = id;
+            return View();
+        }
 
-        public RedirectResult Supple_Done(int id) //Запрос на пополнени деалют клинеты, а за его выполнение будут отвечать 
+        [Authorize(Roles = "Manager")]
+        [HttpPost]
+        public RedirectResult Supple_Done(int id, string genre, string director, uint cost) //Метод отвечает за выполнение пополнения ассортимента 
         {                                           //менеджеры, данный метод отвечает за выполнение запроса.
             Supplement supple = db.Supplements.Find(id);
             Product pr = new Product();
+            pr.Cost = (int?)cost;
+            pr.Director = director;
+            pr.Genre = genre;
             pr.P_Name = supple.P_Name;
             pr.Year = supple.Year;
             pr.Date_Buy = DateTime.Now;
@@ -107,23 +123,27 @@ namespace Start_1.Controllers
             db.Supplements.Find(id).Supple_Done = 1;
             db.SaveChanges();
             return Redirect("/Look/SuppleView/");
-        } 
+        }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public ActionResult Manager_Add() 
         {
             return View();
         } //добавление нового работника, напрямуюбез регистрации
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
-        public RedirectResult Manager_Add(Manager manager)
+        public RedirectResult Manager_Add(Manager manager)//Добавление работника
         {
+            manager.RoleId = 2;
             db.Managers.Add(manager);
             db.SaveChanges();
             return Redirect("/Look/ManagerView/");
         }
 
-        public RedirectResult OrderChange(int id)
+        [Authorize(Roles = "Manager")]
+        public RedirectResult OrderChange(int id) //Закрытие заказа
         {
 
                 db.Orders.Find(id).Date_End = DateTime.Now;
@@ -134,6 +154,6 @@ namespace Start_1.Controllers
                 db.SaveChanges();
                 return Redirect("/Look/OrderView/");
           
-        }  //Закрытие заказа
+        }  
     }
 }

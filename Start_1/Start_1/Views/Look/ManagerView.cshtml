@@ -1,32 +1,53 @@
-﻿
+﻿@model IEnumerable<Start_1.Models.Manager>
+
 @{
     ViewBag.Title = "ManagerView";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
 <h2>Просмотр работников компании</h2>
-<div>
-    <table>
-        <tr class="header">
-            <td>Идентификатор</td>
-            <td>Имя работника</td>
-            <td>Должность</td>
-            <td>Почта</td>
-            <td>Номер телефона</td>
-            <td>Зарплата</td>
-            <td>Изменить</td>
-        </tr>
-        @foreach (Start_1.Models.Manager p in ViewBag.Managers)
-        {
-            <tr>
-                <td><p>@p.Person_Id</p></td>
-                <td><p>@p.Name</p></td>
-                <td><p>@p.Job_Title</p></td>
-                <td><p>@p.Email</p></td>
-                <td><p>@p.Phone_Number</p></td>
-                <td><p>@p.Salary</p></td> 
-            </tr>
-        }
-    </table>
-    <h2>Добавить работника</h2>
-    <p><a href="/Home/Manager_Add/"> Добавить работника</a></p>                          
-</div>
+<p>
+    @Html.ActionLink("Добавить работника", "Manager_Add","Home")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Имя", "ManagerView", "Look", new { order = "Name" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Почта", "ManagerView", "Look", new { order = "Email" }, null)
+        </th>
+        <th>
+           @Html.ActionLink("Номер телефона", "ManagerView", "Look", new { order = "Phone_Number" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Должность", "ManagerView", "Look", new { order = "Job_Title" }, null)
+        </th>
+        <th>
+           @Html.ActionLink("Зарплата", "ManagerView", "Look", new { order = "Salary" }, null)
+        </th>
+
+
+    </tr>
+
+@foreach (Start_1.Models.Manager item in ViewBag.Managers) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone_Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Job_Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Salary)
+        </td>
+    </tr>
+}
+
+</table>

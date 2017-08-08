@@ -6,10 +6,10 @@ using System.Web;
 
 namespace Start_1.Models
 {
-    public class Order
+    public class Order  //Модель для создания заказа
     {   [Key]
-        public int Order_Id { get; set; }
-        public int Person_Id { get; set; }
+        public int Order_Id { get; set; } //ID заказа
+        public int Person_Id { get; set; } 
         public int Product_Id { get; set; }
         public DateTime Date_Begin { get; set; }
         public DateTime Date_End { get; set; }

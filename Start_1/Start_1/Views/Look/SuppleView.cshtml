@@ -1,50 +1,88 @@
-﻿
+﻿@model IEnumerable<Start_1.Models.Supplement>
+
 @{
-    ViewBag.Title = "SuppleView";
+    ViewBag.Title = "Пополнение";
+    if (ViewBag.User != null && ViewBag.User.RoleId == 2)
+    {
+        Layout = "~/Views/Shared/_Layout1.cshtml";
+    }
 }
 
-<h2>Просмотр добавок</h2>
+<h2>Список продукции для пополнения ассортимента</h2>
+@if (ViewBag.User != null && ViewBag.User.RoleId > 1)
+{
+<p>
+    @Html.ActionLink("Сделать заявку на пополнение", "Supple_Get", "Home")
+</p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Название фильма", "SuppleView", "Look", new { order = "P_Name" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Год выпуска", "SuppleView", "Look", new { order = "Year" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Дата заказа", "SuppleView", "Look", new { order = "Date_Supple_Begin" }, null)
+        </th>
+        @if (ViewBag.User != null && ViewBag.User.RoleId > 1)
+        {
 
-<div>
-    <table>
-        <tr class="header">
-            <td>Номер заказа</td>
-            <td>Код фильма</td>
-            <td>Код клиента</td>
-            <td>Название фильма</td>
-            <td>Дата заказа</td>
-            <td>Дата приобретения</td>
-            <td>Статус доставки</td>
-            <td>Добавить</td>
-        </tr>
+        <th>
+            @Html.ActionLink("Дата приобретения", "SuppleView", "Look", new { order = "Date_Supple_End" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Статус заказа", "SuppleView", "Look", new { order = "Supple_Done" }, null)
+        </th>
 
-        @foreach (Start_1.Models.Supplement p in ViewBag.Supplements)
-            {
-            <tr>
-                <td><p>@p.Supple_Id</p></td>
-                <td><p>@p.Product_Id</p></td>
-                <td><p>@p.Person_Id</p></td>
-                <td><p>@p.P_Name</p></td>
-                <td><p>@p.Date_Supple_Begin</p></td>
-                @if (p.Date_Supple_End !=null)
-                {
-                    <td><p>@p.Date_Supple_End</p></td>
-                }
-                else
-                {
-                    <td><p>-</p></td>
-                }
-                @if (p.Supple_Done == 1)
-                {
-                    <td><p>Товар доставлен</p></td>
-                }
-                else
-                {
-                    <td><p>Пока не приобрели</p></td>
-                }
-                <td><p><a href="/Home/Supple_Done?id=@p.Supple_Id">Добавить</a></p></td>
-            </tr>
+        <th></th>
+        }
+    </tr>
+
+@foreach (Start_1.Models.Supplement item in ViewBag.Supplements) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.P_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Year)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_Supple_Begin)
+        </td>
+        @if (ViewBag.User != null && ViewBag.User.RoleId > 1)
+        {
+        if (item.Date_Supple_End != null)
+        {
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_Supple_End)
+        </td>
+        }
+        else
+        {
+            <td><p>-</p></td>
         }
 
-    </table>
-</div>
+        if (item.Supple_Done == 1)
+        {
+        <td>
+            @Html.Label("Доставка выполнена")
+        </td>
+        }
+         else
+        {
+        <td>
+            @Html.Label("Заказ не выполнен")
+        </td>
+        }
+
+        <td>
+            @Html.ActionLink("Закрыть запрос", "Supple_Done", "Home", new { id=item.Supple_Id },null) 
+        </td>
+        }
+    </tr>
+}
+
+</table>

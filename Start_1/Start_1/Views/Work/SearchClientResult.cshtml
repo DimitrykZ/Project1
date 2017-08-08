@@ -4,23 +4,24 @@
 }
 
 <h2>Результат поиска</h2>
-
-@if (ViewBag.Client != null)
-{
-    <p>@ViewBag.Client.Name</p>
-    <p>@ViewBag.Client.Email</p>
-    <p>@ViewBag.Client.Phone_Number</p>
-    <p>@ViewBag.Client.Level</p>
-    if (ViewBag.Client.VIP == 1)
+<dl class="dl-horizontal">
+    @if (ViewBag.Client != null)
     {
-        <p>VIP клиент</p>
+        <dd>@ViewBag.Client.Name</dd>
+        <dd>@ViewBag.Client.Email</dd>
+        <dd>@ViewBag.Client.Phone_Number</dd>
+        <dd>@ViewBag.Client.Level</dd>
+        if (ViewBag.Client.VIP == 1)
+        {
+            <dd>VIP клиент</dd>
+        }
+        else
+        {
+            <dd>Простой клиент</dd>
+        }
     }
     else
     {
-        <p>Простой клиент</p>
+        <dd>Ничего не найдено</dd>
     }
-}
-else
-{
-    <p>Ничего не найдено</p>
-}
+</dl>

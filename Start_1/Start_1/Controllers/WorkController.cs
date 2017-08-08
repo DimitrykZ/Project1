@@ -13,13 +13,17 @@ namespace Start_1.Controllers
         // GET: Work
         StoreContext db = new StoreContext();
         StoreContext db1 = new StoreContext();
+
+        [Authorize]
         [HttpGet]
-        public ActionResult SearchProduct()
+        public ActionResult SearchProduct()  //метод поиска продукта
         {
             return View();
         } //Поиск товара по наименованию
+
+        [Authorize]
         [HttpPost]
-        public ActionResult SearchProduct(string name)
+        public ActionResult SearchProduct(string name) //метод поиска продукта
         {
             foreach(Start_1.Models.Product p in db.Products)
             {
@@ -30,6 +34,7 @@ namespace Start_1.Controllers
             return View("SearchProductResult");
         }
 
+        [Authorize]
         public ActionResult ReturnTime(int id) //Возможность просмотра информации когда будет доступен продукт
         {
             foreach (Start_1.Models.Order or in db.Orders)
@@ -44,15 +49,18 @@ namespace Start_1.Controllers
             }
 
             return View();
-        }         
+        }
 
+        [Authorize]
         [HttpGet]
         public ActionResult SearchClient() //Поиск клиента
         {
             return View();
-        }   
+        }
+
+        [Authorize]
         [HttpPost]
-        public ActionResult SearchClient(string name)
+        public ActionResult SearchClient(string name) //Поиск клиента
         {
             foreach (Start_1.Models.Client cl in db.Clients)
             {

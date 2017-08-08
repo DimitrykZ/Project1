@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Start_1.Models.Order>
+
+@{
+    ViewBag.Title = "История заказов";
+}
+
+<h2>История заказов</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Название фильма", "OrderUser", "Look", new { order = "Product_Id" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Дата начала проката", "OrderUser", "Look", new { order = "Date_Begin" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Дата конца проката", "OrderUser", "Look", new { order = "Date_End" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Цена", "OrderUser", "Look", new { order = "Price" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Закрыт заказ", "OrderUser", "Look", new { order = "Complete" }, null)
+        </th>
+    </tr>
+
+@foreach (Start_1.Models.Order item in ViewBag.Orders) {
+    if (item.Person_Id == ViewBag.Person_Id)
+    {
+        string name = ViewBag.Products.Find(item.Product_Id).P_Name;
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_Begin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_End)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        @if (item.Complete==1)
+        {
+            <td>
+                @Html.Label("Да");
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.Label("Нет");
+            </td>
+        }
+    </tr>
+    }
+}
+
+</table>

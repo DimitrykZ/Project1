@@ -6,8 +6,8 @@ using System.Web;
 
 namespace Start_1.Models
 {
-    public  class Person
-    {
+    public class Person  //Родительский класс,от которого будут наследоваться клиент 
+    {                    //и менеджеры
         [Key]
         public int Person_Id { get; set; }
         public string Name { get; set; }
@@ -20,20 +20,20 @@ namespace Start_1.Models
 
     }
 
-    public class Client: Person
+    public class Client: Person  //класс для клиентов
     {
         public int Level { get; set; }
         public int VIP { get; set; }
     }
 
-    public class Manager: Person
+    public class Manager: Person        //Класс для менеджеров
     {
         public string Job_Title { get; set; }
         public int Salary { get; set; }
     }
 
 
-    public class Role
+    public class Role  //Класс ролей, который будет использоваться при авторизации
     {
         public int Id { get; set; }
         public string Name { get; set; }

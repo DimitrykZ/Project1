@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Start_1.Models
 {
-    public class StoreContext: DbContext
+    public class StoreContext: DbContext  //Контекс базы данных
     {
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }

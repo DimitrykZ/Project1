@@ -1,48 +1,104 @@
-﻿
+﻿@model IEnumerable<Start_1.Models.Product>
+
 @{
-    ViewBag.Title = "ProductView";
+    ViewBag.Title = "Просмотр продукции";
+    if (ViewBag.User != null && ViewBag.User.RoleId == 2)
+    {
+        Layout = "~/Views/Shared/_Layout1.cshtml";
+    }
 }
 
 <h2>Просмотр продукции</h2>
-<h3><a href="/Work/SearchProduct/"> Найти фильм</a></h3>
-<h3><a href="/Home/Supple_Get/"> Сделать заказ</a></h3>
-<div>
-    <table>
-        <tr class="header">
-            <td>Идентификатор</td>
-            <td>Название фильма</td>
-            <td>Жанр</td>
-            <td>Режиссер</td>
-            <td>Год выпуска</td>
-            <td>Цена за день</td>
-            <td>Имеется в наличии</td>
-            <td>Дата приобретения</td>
-            <td>Заказать</td>
-            <td>Наличие</td>
+
+@if (ViewBag.Authen)
+{
+    <p>
+        @Html.ActionLink("Найти фильм", "SearchProduct", "Work")
+    </p>
+    if (ViewBag.User != null && ViewBag.User.RoleId > 1)
+    {
+        <p>
+            @Html.ActionLink("Сделать заказ", "Supple_Get", "Home")
+        </p>
+    }
+}
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Название фильма", "ProductView", "Look", new { order = "P_Name" }, null)
+            </th>
+            <th>
+                @Html.ActionLink("Жанр", "ProductView", "Look", new { order = "Genre" }, null)
+            </th>
+            <th>
+                @Html.ActionLink("Режиссер", "ProductView", "Look", new { order = "Director" }, null)
+            </th>
+            <th>
+                @Html.ActionLink("Год выпуска", "ProductView", "Look",new {order="Year" },null)
+            </th>
+            <th>
+                @Html.ActionLink("Наличие", "ProductView", "Look", new { order = "Have" }, null)
+            </th>
+            <th>
+                @Html.ActionLink("Стоимость за день", "ProductView", "Look", new { order = "Cost" }, null)
+            </th>
+            <th></th>
         </tr>
-       
-            @foreach (Start_1.Models.Product p in ViewBag.Products)
-            {
-                <tr>
-                    <td><p>@p.Product_Id</p></td>
-                    <td><p>@p.P_Name</p></td>
-                    <td><p>@p.Genre</p></td>
-                    <td><p>@p.Director</p></td>
-                    <td><p>@p.Year</p></td>
-                    <td><p>@p.Cost</p></td>
-                    @if (p.Have == 1)
-                    {
-                    <td><p>Имеется в наличии</p></td>
-                    }
-                    else
-                    {
-                     <td><p>В наличии нету</p></td>
-                    }
-                    <td><p>@p.Date_Buy.Value.Date</p></td>
-                    <td><p><a href="/Home/GetOrder?id=@p.Product_Id">Заказать</a></p></td>
-                    <td><p><a href="/Work/ReturnTime?id=@p.Product_Id">Наличие</a></p></td>
-                </tr>
-            }
-        
+
+        @foreach (Start_1.Models.Product item in ViewBag.Products)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.P_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Director)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                @if (item.Have == 1)
+                {
+                    <td>
+                        @Html.Label("Имеется в наличии");
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.Label("нету в наличии");
+                    </td>
+                }
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                @if (ViewBag.Authen)
+                {
+                    <td>
+                        @if (item.Have == 1)
+                        {
+                            <form method="get" action="~/Home/GetOrder">
+                                <input type="hidden" name="id" value="@item.Product_Id"/>
+                                <input type="submit" value="Заказать" />
+                            </form>
+                        }
+                        else
+                        {
+                            using (Ajax.BeginForm("SearchTime", new AjaxOptions { UpdateTargetId = item.Product_Id.ToString() }))
+                            {   
+                                <input type="hidden" name="id" value="@item.Product_Id"/>
+                                <input type="submit" value="Показать когда вернут" />
+                            }
+                            <p id='@item.Product_Id.ToString()'> </p>    
+                        }
+                    </td>
+                }
+            </tr>
+        }
+
     </table>
-</div>

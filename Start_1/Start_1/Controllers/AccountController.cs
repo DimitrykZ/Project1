@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
-
+using System;
 
 namespace Start_1.Controllers
 {
@@ -16,7 +16,7 @@ namespace Start_1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(RegisterModel model)  //Регистрация нового клиента
         {
             if (ModelState.IsValid)
             {
@@ -30,10 +30,11 @@ namespace Start_1.Controllers
                     // создаем нового пользователя
                     using (StoreContext db = new StoreContext())
                     {
-                        db.Clients.Add(new Client { Email = model.Email, Password = model.Password, Name = model.Name, RoleId = 1, Level=0,VIP=0 });
+                        db.Clients.Add(new Client { Email = model.Name, Password = model.Password, Name = model.First_name,
+                                                   Phone_Number=model.Phone_Number, RoleId = 1, Level=0,VIP=0 });
                         db.SaveChanges();
 
-                        user = db.Clients.Where(u => u.Email == model.Email && u.Password == model.Password).FirstOrDefault();
+                        user = db.Clients.Where(u => u.Email == model.Name && u.Password == model.Password).FirstOrDefault();
                     }
                     // если пользователь удачно добавлен в бд
                     if (user != null)
@@ -49,7 +50,7 @@ namespace Start_1.Controllers
             }
 
             return View(model);
-        } //Регистрация нового клиента
+        } 
 
         public ActionResult Login()
         {
@@ -58,21 +59,22 @@ namespace Start_1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model)
+        public ActionResult Login(LoginModel model)  //Авторизация под своим логином
         {
             if (ModelState.IsValid)
             {
                 // поиск пользователя в бд
-                Client user = null;
+                Person user = null;
                 using (StoreContext db = new StoreContext())
                 {
-                    user = db.Clients.FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
-
+                    user = db.Clients.FirstOrDefault(u => u.Email == model.Name && u.Password == model.Password);
+                    if (user==null)
+                   user = db.Managers.FirstOrDefault(u => u.Email == model.Name && u.Password == model.Password);
                 }
                 if (user != null)
                 {
-                    FormsAuthentication.SetAuthCookie(model.Email, true);
-                    return RedirectToAction("ProductView", "Look");
+                    FormsAuthentication.SetAuthCookie(model.Name, true);
+                    return RedirectToAction("ProductView", "Look");          
                 }
                 else
                 {
@@ -81,6 +83,13 @@ namespace Start_1.Controllers
             }
 
             return View(model);
-        } //Вход под своим логином
+        } 
+
+        [Authorize]
+        public ActionResult Exit()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("ProductView", "Look");
+        }
     }
 }

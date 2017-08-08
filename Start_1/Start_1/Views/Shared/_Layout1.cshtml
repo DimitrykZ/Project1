@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title – приложение ASP.NET</title>
@@ -14,16 +14,18 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Продукция", "ProductView", "Look")</li>
-                    <li>@Html.ActionLink("Заказы", "OrderUser", "Look")</li>
+                    <li>@Html.ActionLink("Клиенты", "ClientView", "Look")</li>
+                    <li>@Html.ActionLink("Работники", "ManagerView", "Look")</li>
+                    <li>@Html.ActionLink("Заказы", "OrderView", "Look")</li>
                     <li>@Html.ActionLink("Пополнения", "SuppleView", "Look")</li>
                     @if (!User.Identity.IsAuthenticated)
                     {
-                    <li>@Html.ActionLink("Авторизация", "Login", "Account")</li>
-                    <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
+                        <li>@Html.ActionLink("Авторизация", "Login", "Account")</li>
+                        <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
                     }
                     else
                     {
-                    <li>@Html.ActionLink("Выход", "Exit", "Account")</li>
+                        <li>@Html.ActionLink("Выход", "Exit", "Account")</li>
                     }
                 </ul>
             </div>

@@ -1,33 +1,59 @@
-﻿
+﻿@model IEnumerable<Start_1.Models.Client>
+
 @{
     ViewBag.Title = "ClientView";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
-<h2>Просмотр всех клиентов</h2>
-<div>
-    <table>
-        <tr class="header">
-            <td>Идентификатор</td>
-            <td>Имя клиента</td>
-            <td>Почта</td>
-            <td>Номер телефона</td>
-            <td>Уровень</td>
-            <td>Статус</td>
-        </tr>
-        @foreach (Start_1.Models.Client p in ViewBag.Clients)
-        {
-            <tr>
-                <td><p>@p.Person_Id</p></td>
-                <td><p>@p.Name</p></td>
-                <td><p>@p.Email</p></td>
-                <td><p>@p.Phone_Number</p></td>
-                <td><p>@p.Level</p></td>
-                <td><p>@p.VIP</p></td>
-    
-            </tr>
-        }
-    </table>
-    <h1>Добавить клиента</h1>
-    <p><a href="/Home/Client_New/">Добавить</a></p>
-</div>
+<h2>Список клиентов</h2>
 
+<p>
+    @Html.ActionLink("Добавить нового клиента", "ClientNew","Home")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Имя", "ClientView", "Look", new { order = "Name" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Почта", "ClientView", "Look", new { order = "Email" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Номер телефона", "ClientView", "Look", new { order = "Phone_Number" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Уровень", "ClientView", "Look", new { order = "Level" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Статус VIP", "ClientView", "Look", new { order = "VIP" }, null)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (Start_1.Models.Client item in ViewBag.Clients) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone_Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Level)
+        </td>
+        @if (item.VIP == 1)
+                {
+            <td>@Html.Label("Имеется VIP статус")</td>
+        }
+        else
+        {
+            <td>@Html.Label("Статуса VIP нет")</td>
+        }      
+    </tr>
+}
+
+</table>

@@ -7,7 +7,7 @@ using System.Web.Security;
 
 namespace Start_1.Providers
 {
-    public class RoleProviders : RoleProvider
+    public class RoleProviders : RoleProvider  //Класс отвечающий за роли  пользователей.
     {
         public override string ApplicationName
         {
@@ -47,12 +47,16 @@ namespace Start_1.Providers
             throw new NotImplementedException();
         }
 
-        public override string[] GetRolesForUser(string username)
+        public override string[] GetRolesForUser(string username) //Метод возвращает название роли
         {
             string[] roles = new string[] { };
             using (StoreContext db = new StoreContext())
             {
-                Client user = db.Clients.FirstOrDefault(u => u.Email == username);
+                Person user = null;
+                user = db.Clients.FirstOrDefault(u => u.Email == username); //поиск роли по е-мейлу среди клеинтов 
+                if (user == null)                                           //и если не найдено,то поиск проходит по менеджерам
+                    user = db.Managers.FirstOrDefault(u => u.Email==username);
+
                 if (user != null)
                 {
                     Role userRole = db.Roles.Find(user.RoleId);
@@ -68,12 +72,16 @@ namespace Start_1.Providers
             throw new NotImplementedException();
         }
 
-        public override bool IsUserInRole(string username, string roleName)
-        {
+        public override bool IsUserInRole(string username, string roleName)// метод выдает результат пользователь авторизирован 
+        {                                                                   //или нет
             bool outputResult = false;
             using (StoreContext db = new StoreContext())
             {
-                Client user = db.Clients.FirstOrDefault(u => u.Email == username);
+                Person user = null;
+                user = db.Clients.FirstOrDefault(u => u.Email == username);
+                if (user == null)
+                    user = db.Managers.FirstOrDefault(u => u.Email == username);
+
                 if (user != null)
                 {
                     Role userRole = db.Roles.Find(user.RoleId);

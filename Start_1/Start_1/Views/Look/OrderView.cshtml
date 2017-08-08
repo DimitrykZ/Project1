@@ -1,45 +1,71 @@
-﻿
+﻿@model IEnumerable<Start_1.Models.Order>
+
 @{
-    ViewBag.Title = "OrderView";
+    ViewBag.Title = "Просмотр заказов";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
 <h2>Просмотр заказов</h2>
 
-<div>
-    <table>
-        <tr class="header">
-            <td>Номер заказа</td>
-            <td>Код фильма</td>
-            <td>Код клиента</td>
-            <td>Цена</td>
-            <td>Дата начала проката</td>
-            <td>Дата окончания проката</td>
-            <td>Договор окончен</td>
-            <td>Закрыть договор</td>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Имя клиента", "OrderView", "Look", new { order = "Person_Id" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Название фильма", "OrderView", "Look", new { order = "Product_Id" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Дата начала проката", "OrderView", "Look", new { order = "Date_Begin" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Дата конца проката", "OrderView", "Look", new { order = "Date_End" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Цена", "OrderView", "Look", new { order = "Price" }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Закрыт заказ", "OrderView", "Look", new { order = "Complete" }, null)
+        </th>
+        <th></th>
+    </tr>
 
-        </tr>
+@foreach (Start_1.Models.Order item in ViewBag.Orders) {
+    string p_Name = ViewBag.Products.Find(item.Product_Id).P_Name;
+    string name = ViewBag.Clients.Find(item.Person_Id).Name;
+    <tr>
 
-        @foreach (Start_1.Models.Order p in ViewBag.Orders)
-            {
-            <tr>
-                <td><p>@p.Order_Id</p></td>
-                <td><p>@p.Product_Id</p></td>
-                <td><p>@p.Person_Id</p></td>
-                <td><p>@p.Price</p></td>
-                <td><p>@p.Date_Begin</p></td>
-                <td><p>@p.Date_End</p></td>
-                @if (p.Complete == 1)
-                {
-                <td><p>Да</p></td>
-                }
-                else
-                {
-                    <td><p>Нет</p></td>
-                }
-                <td><p><a href="/Home/OrderChange?id=@p.Order_Id">Закрыть</a></p></td>
-            </tr>
+        <td>
+            @Html.DisplayFor(modelItem => name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => p_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_Begin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_End)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        @if (item.Complete == 1)
+        {
+            <td>
+                @Html.Label("Да");
+            </td>
         }
+        else
+        {
+            <td>
+                @Html.Label("Нет");
+            </td>
+        }
+        <td>
+            @Html.ActionLink("Закрыть", "OrderChange","Home", new { id=item.Order_Id },null)
+        </td>
+    </tr>
+}
 
-    </table>
-    
-</div>
+</table>

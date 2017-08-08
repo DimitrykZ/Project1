@@ -4,28 +4,32 @@
 }
 
 <h2>Результат поиска</h2>
-
+<dl class="dl-horizontal">
     @if (ViewBag.Product != null)
-    {
-        <p>@ViewBag.Product.Product_Id</p>
-        <p>@ViewBag.Product.P_Name</p>
-        <p>@ViewBag.Product.Genre</p>
-        <p>@ViewBag.Product.Director</p>
-        <p>@ViewBag.Product.Year</p>
+    {   
+        <dt>Название фильма</dt>
+        <dd>@ViewBag.Product.P_Name</dd>
+        <dt>Жанр</dt>
+        <dd>@ViewBag.Product.Genre</dd>
+        <dt>Режиссер</dt>
+        <dd>@ViewBag.Product.Director</dd>
+        <dt>Год выпуска</dt>
+        <dd>@ViewBag.Product.Year</dd>
+        <dt>В данный момент</dt>
         if (ViewBag.Product.Have == 1)
         {
-            <p>Имеется в наличии</p>
+            <dd>имеется в наличии</dd>
         }
         else
         {
-            <p>В наличии нету</p>
+            <dd>в наличии нету</dd>
         }
-        <p><a href="/Home/GetOrder?id=@ViewBag.Product.Product_Id">Заказать</a></p>
+        <dd><a href="/Home/GetOrder?id=@ViewBag.Product.Product_Id">Заказать</a></dd>
     }
-     else
+    else
     {
-        <p>Ничего не найдено</p>
+        <dd>Ничего не найдено</dd>
     }
-
+</dl>
 
 

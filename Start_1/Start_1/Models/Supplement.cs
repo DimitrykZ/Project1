@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Start_1.Models
 {
-    public class Supplement
+    public class Supplement //Модель для создания пополнения продукции
     {
         [Key]
         public int Supple_Id { get; set; }

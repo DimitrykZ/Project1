@@ -161,6 +161,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -172,6 +174,7 @@
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -180,25 +183,28 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\GetOrder.cshtml" />
-    <Content Include="Views\Home\Client_New.cshtml" />
-    <Content Include="Views\Home\Supple_Get.cshtml" />
-    <Content Include="Views\Home\Manager_Add.cshtml" />
     <Content Include="Views\Home\Order_Done.cshtml" />
-    <Content Include="Views\Look\ClientView.cshtml" />
-    <Content Include="Views\Look\ManagerView.cshtml" />
-    <Content Include="Views\Look\ProductView.cshtml" />
-    <Content Include="Views\Look\OrderView.cshtml" />
-    <Content Include="Views\Look\SuppleView.cshtml" />
     <Content Include="Views\Work\SearchProduct.cshtml" />
     <Content Include="Views\Work\SearchProductResult.cshtml" />
-    <Content Include="Views\Work\ReturnTime.cshtml" />
     <Content Include="Views\Work\SearchClient.cshtml" />
     <Content Include="Views\Work\SearchClientResult.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Supple_Wait.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Shared\_Layout1.cshtml" />
+    <Content Include="Views\Home\ClientNew.cshtml" />
+    <Content Include="Views\Look\ProductView.cshtml" />
+    <Content Include="Views\Look\SuppleView.cshtml" />
+    <Content Include="Views\Look\ClientView.cshtml" />
+    <Content Include="Views\Look\ManagerView.cshtml" />
+    <Content Include="Views\Look\OrderView.cshtml" />
+    <Content Include="Views\Look\OrderUser.cshtml" />
+    <Content Include="Views\Home\GetOrder.cshtml" />
+    <Content Include="Views\Home\Manager_Add.cshtml" />
+    <Content Include="Views\Home\Supple_Get.cshtml" />
+    <Content Include="Views\Home\Supple_Done.cshtml" />
+    <Content Include="Views\Look\SearchTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
